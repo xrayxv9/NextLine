@@ -1,40 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/16 17:08:43 by cmorel           ###   ########.fr       */
+/*   Created: 2024/10/16 15:05:46 by cmorel            #+#    #+#             */
+/*   Updated: 2024/10/16 16:55:33 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-
-char *get_next_line(int fd)
+void	ft_reset(int len, char *buffer)
 {
-	static char		buffer[BUFFER_SIZE];
-	char			*line;
-	
-	if (!buffer[0])
-	{
+	int	i;
+	int cpy;
 
-	}
-	else 
+	i = 0;
+	cpy = len;
+	while (len >= i && buffer[i])
 	{
-		read(fd, buffer, BUFFER_SIZE);
-		ft_check_line(line, buffer);
-
-		return (line);
+		buffer[i] = buffer[cpy];
+		cpy++;
+		i++;
 	}
-	return (line);
+	buffer[i] = '\0';
 }
 
-int main ()
+void	ft_check_line(char *buffer, char *line)
 {
-	const char *PATH = "test.txt";
-	int fd = open(PATH, O_RDONLY);
+	int	i;
 
-
+	i = 0;
+	while (buffer[i] || buffer[i] == '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	ft_reset(i, buffer);
 }

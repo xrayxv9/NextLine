@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:40:21 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/16 12:46:59 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/16 16:56:16 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -16,12 +16,12 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 10
+#endif
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
+void	ft_reset(int len, char *buffer);
 
+void	ft_check_line(char *buffer, char *line);
 
 #endif
