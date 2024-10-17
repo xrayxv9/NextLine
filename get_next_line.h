@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:40:21 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/16 16:56:16 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/17 15:20:57 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -20,12 +20,6 @@
 #define BUFFER_SIZE 10
 #endif
 
-void	ft_reset(int len, char *buffer);
-
-void	ft_check_line(char *buffer, char *line, int fd);
-
-char	*ft_modify(char *line, int len,char *buffer);
-
-char	*get_next_line(int fd);
+char	*ft_checkline(char *buffer, int fd);
 
 #endif
