@@ -17,24 +17,33 @@ char *get_next_line(int fd)
 	static char		buffer[BUFFER_SIZE];
 	char			*line;
 	
-	if (!buffer[0])
+	if (buffer[0])
 	{
+		// Il faut verifie que je sois bien a un \n
+		while ()
+
+
+
+
+		return (line);
 
 	}
 	else 
 	{
 		read(fd, buffer, BUFFER_SIZE);
-		ft_check_line(line, buffer);
-
+		line = malloc(BUFFER_SIZE);
+		if (!line)
+			return (NULL);
+		ft_check_line(buffer, line, fd);
 		return (line);
 	}
-	return (line);
 }
 
 int main ()
 {
-	const char *PATH = "test.txt";
-	int fd = open(PATH, O_RDONLY);
-
-
+	const char	*PATH = "test.txt";
+	int			fd = open(PATH, O_RDONLY);
+	char		*line =  get_next_line(fd);
+	printf("%s\n", line);
+	free(line);
 }

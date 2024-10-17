@@ -22,6 +22,10 @@
 
 void	ft_reset(int len, char *buffer);
 
-void	ft_check_line(char *buffer, char *line);
+void	ft_check_line(char *buffer, char *line, int fd);
+
+char	*ft_modify(char *line, int len,char *buffer);
+
+char	*get_next_line(int fd);
 
 #endif

@@ -27,15 +27,48 @@ void	ft_reset(int len, char *buffer)
 	buffer[i] = '\0';
 }
 
-void	ft_check_line(char *buffer, char *line)
+void	ft_check_line(char *buffer, char *line, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (buffer[i] || buffer[i] == '\n')
+	while (buffer[i] != '\n' && i <= BUFFER_SIZE)
 	{
-		line[i] = buffer[i];
+		if (line)
+			line[i] = buffer[i];
 		i++;
 	}
-	ft_reset(i, buffer);
+	if (buffer[i] != EOF && buffer[i] != '\n')
+	{
+		get_next_line(fd);
+		return ;
+	}
+	if (line)
+	{
+		line[i] = '\0';
+		ft_reset(i, buffer);
+	}
+}
+
+char	*ft_modify(char *line, int len,char *buffer)
+{
+	char *new_line;
+	int i;
+
+	i = 0;
+	new_line = malloc(len + 1);
+	while (line[i])
+	{
+		new_line[i] = line[i];
+		i++;
+	}
+	while(buffer[i])
+	{
+		new_line[i] = buffer[i];
+		i++;
+	}
+	new_line[i] = '\0';
+	printf("line --> %s\n new_line --> %s\n", line, new_line);
+	free(line);
+	return (new_line);
 }
