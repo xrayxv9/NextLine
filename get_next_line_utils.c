@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-static int	ft_strlen(char *c)
+int	ft_strlen(char *c)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	while (len2 + len > i)
 	{
-		t[i] = (*s2)++;
+		t[i] = *(s2++);
 		i++;
 	}
 	t[len + len2] = '\0';
@@ -62,22 +62,36 @@ int ft_strchr(char c, char *s)
 	return (0);
 }
 
+void	ft_strcpy(char *dest, char *src, int n)
+{
+	while (*(src + n))
+	{
+		*dest = *(src + n);
+		if (*src == '\n')
+			return ;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+}
+
 char	*ft_checkline(char *buffer, int fd)
 {
-	int		i;
 	char	*line;
-
+	char	*tmp;
 	
-	i = 0;
 	line = "\0";
-	while (ft_strchr('\n', line) && ft_strchr('\0', buffer))
+	tmp = "\0";
+	while (!(ft_strchr('\n', line)) && !(ft_strchr('\0', buffer)))
 	{
 		read(fd, buffer, BUFFER_SIZE);
-		line = ft_strjoin(buffer, line);
-		printf("i --> %d\nline --> %s\n", i, line);
-		i++;
-	}	
-	printf("yfgevwsjhfbesifn\n");
+		tmp = ft_strjoin(line, buffer);
+		if (*line)
+			free(line);
+		line = malloc((ft_strlen(tmp) + 1) * sizeof(char));
+		ft_strcpy(line, tmp, 0);
+		free(tmp);
+	}
 	return (line);
 }
 

@@ -22,4 +22,12 @@
 
 char	*ft_checkline(char *buffer, int fd);
 
+int		ft_strlen(char *c);
+
+char	*ft_strjoin(char *s1, char *s2);
+
+int		ft_strchr(char c, char *s);
+
+void	ft_strcpy(char *dest, char *src, int n);
+
 #endif
