@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-// ne fonctionne pas avec un buffer trop elever
-// voir pour check la ligne avant le renvoie de celle-ci
-
 static char	*checked(char *line)
 {
 	int		i;
@@ -31,7 +28,6 @@ static char	*checked(char *line)
 	return (checked_line);
 }
 
-
 static char	*ft_checkbuffer(char *buffer, int fd)
 {
 	int		i;
@@ -46,7 +42,7 @@ static char	*ft_checkbuffer(char *buffer, int fd)
 	line = malloc((ft_strlen(buffer + i) + 1));
 	if (!line)
 		line = "\0";
-	ft_strcpy(line, buffer, i+1);
+	ft_strcpy(line, buffer, i + 1);
 	while (!(ft_strchr('\n', line)) && !(ft_strchr('\0', buffer)))
 	{
 		read(fd, buffer, BUFFER_SIZE);
@@ -60,8 +56,7 @@ static char	*ft_checkbuffer(char *buffer, int fd)
 	return (checked(line));
 }
 
-
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	static char		buffer[BUFFER_SIZE];
 	char			*line;
@@ -75,7 +70,8 @@ char *get_next_line(int fd)
 		line = ft_checkline(buffer, fd);
 	return (line);
 }
-/*
+
+#include <stdio.h>
 int main ()
 {
 	const char	*PATH = "test.txt";
@@ -84,6 +80,6 @@ int main ()
 	printf("first line--> %s", line);
 	free(line);
 	line = get_next_line(fd);
-	printf("second line--> %s\n",line);
+	printf("second line--> %s",line);
 	free(line);
-}*/
+}

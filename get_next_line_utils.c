@@ -48,9 +48,9 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (t);
 }
 
-int ft_strchr(char c, char *s)
+int	ft_strchr(char c, char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -79,7 +79,7 @@ char	*ft_checkline(char *buffer, int fd)
 {
 	char	*line;
 	char	*tmp;
-	
+
 	line = "\0";
 	tmp = "\0";
 	while (!(ft_strchr('\n', line)) && !(ft_strchr('\0', buffer)))
@@ -94,4 +94,3 @@ char	*ft_checkline(char *buffer, int fd)
 	}
 	return (line);
 }
-
