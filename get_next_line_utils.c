@@ -15,6 +15,8 @@ int	ft_strlen(char *c)
 {
 	int	i;
 
+	if (!c)
+		return (0);
 	i = 0;
 	while (c[i])
 		i++;
@@ -52,6 +54,8 @@ int	ft_strchr(char c, char *s)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 	{
@@ -88,9 +92,11 @@ char	*ft_checkline(char *buffer, int fd)
 		tmp = ft_strjoin(line, buffer);
 		if (*line)
 			free(line);
+		line = NULL;
 		line = malloc((ft_strlen(tmp) + 1) * sizeof(char));
 		ft_strcpy(line, tmp, 0);
 		free(tmp);
+		tmp = NULL;
 	}
 	return (line);
 }

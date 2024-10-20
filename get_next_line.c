@@ -77,9 +77,15 @@ int main ()
 	const char	*PATH = "test.txt";
 	int			fd = open(PATH, O_RDONLY);
 	char		*line =  get_next_line(fd);
-	printf("first line--> %s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("second line--> %s",line);
+	int			i = 0;
+
+	while (i <= 10)
+	{
+		printf("ligne %d --> %s", i, line);
+		free(line);
+		line = NULL;
+		line = get_next_line(fd);
+		i++;
+	}
 	free(line);
 }
