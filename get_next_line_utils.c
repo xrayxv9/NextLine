@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:05:46 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/17 16:02:14 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/21 12:42:13 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -66,37 +66,16 @@ int	ft_strchr(char c, char *s)
 	return (0);
 }
 
-void	ft_strcpy(char *dest, char *src, int n)
+void	ft_strcpy(char *dest, char *src)
 {
-	while (*(src + n))
+	while (*src)
 	{
-		*dest = *(src + n);
+		*dest = *src;
 		if (*src == '\n')
-			return ;
+			break;
 		dest++;
 		src++;
 	}
+	dest++;
 	*dest = '\0';
-}
-
-char	*ft_checkline(char *buffer, int fd)
-{
-	char	*line;
-	char	*tmp;
-
-	line = "\0";
-	tmp = "\0";
-	while (!(ft_strchr('\n', line)) && !(ft_strchr('\0', buffer)))
-	{
-		read(fd, buffer, BUFFER_SIZE);
-		tmp = ft_strjoin(line, buffer);
-		if (*line)
-			free(line);
-		line = NULL;
-		line = malloc((ft_strlen(tmp) + 1) * sizeof(char));
-		ft_strcpy(line, tmp, 0);
-		free(tmp);
-		tmp = NULL;
-	}
-	return (line);
 }

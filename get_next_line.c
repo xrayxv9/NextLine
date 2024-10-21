@@ -6,54 +6,65 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/17 15:58:40 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/21 12:54:40 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
+#include <stdio.h>
 
-static char	*checked(char *line)
+static char *read_line(int fd, char *buffer)
 {
-	int		i;
-	char	*checked_line;
-
-	checked_line = NULL;
-	i = 0;
-	while (line[i] != '\n' && line[i])
-		i++;
-	checked_line = malloc((i + 1) * sizeof(char));
-	if (!line)
-		return (NULL);
-	ft_strcpy(checked_line, line, 0);
-	free(line);
-	return (checked_line);
-}
-
-static char	*ft_checkbuffer(char *buffer, int fd)
-{
-	int		i;
-	char	*tmp;
+	int		run;
+	int		check;
 	char	*line;
 
+	run = 1;
 	line = "\0";
-	tmp = "\0";
-	i = 0;
-	while (buffer[i] != '\n')
-		i++;
-	line = malloc((ft_strlen(buffer + i) + 1));
-	if (!line)
-		line = "\0";
-	ft_strcpy(line, buffer, i + 1);
-	while (!(ft_strchr('\n', line)) && !(ft_strchr('\0', buffer)))
+	while (run)
 	{
-		read(fd, buffer, BUFFER_SIZE);
-		tmp = ft_strjoin(line, buffer);
-		if (*line)
+		check = read(fd, buffer, BUFFER_SIZE);
+		if (check == -1)
+		{
+			free(buffer);
 			free(line);
-		line = malloc((ft_strlen(tmp) + 1) * sizeof(char));
-		ft_strcpy(line, tmp, 0);
-		free(tmp);
+			return (NULL);
+		}
+		line = ft_strjoin(line, buffer);
+		if (ft_strchr('\n', line))
+			break ;
 	}
-	return (checked(line));
+	return(line);
+}
+
+static char *check_line(char *line)
+{
+	char	*new_line;
+	int		i;
+
+	i = 0;
+	while (line[i] != '\n' && line)
+		i++;
+	new_line = malloc(i + 1);
+	ft_strcpy(new_line, line);
+	free(line);
+	return (new_line);
+}
+
+void clean_buffer(char *buffer)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (buffer[i] != '\n' && buffer[i])
+		i++;
+	while (buffer[i + j])
+	{
+		buffer[j] = buffer [i + j];
+		j++;
+	}
+	buffer[j] = '\0';
 }
 
 char	*get_next_line(int fd)
@@ -62,12 +73,9 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	line = NULL;
-	if (!fd)
-		return (NULL);
-	if (buffer[0])
-		line = ft_checkbuffer(buffer, fd);
-	else
-		line = ft_checkline(buffer, fd);
+	line = read_line(fd, buffer);
+	line = check_line(line);
+	clean_buffer(buffer);
 	return (line);
 }
 
