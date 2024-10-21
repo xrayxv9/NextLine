@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:05:46 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/21 12:42:13 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/21 15:46:12 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -15,8 +15,6 @@ int	ft_strlen(char *c)
 {
 	int	i;
 
-	if (!c)
-		return (0);
 	i = 0;
 	while (c[i])
 		i++;
@@ -30,9 +28,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		len2;
 	int		i;
 
+	if (!s1 && !s2)
+		return (NULL);
 	len = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	t = malloc(len + len2 + 1);
+	t = malloc((len + len2 + 1) * sizeof(char));
 	if (!t)
 		return (NULL);
 	i = 0;
