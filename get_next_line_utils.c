@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:05:46 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/21 15:46:12 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/21 17:43:20 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -66,16 +66,46 @@ int	ft_strchr(char c, char *s)
 	return (0);
 }
 
-void	ft_strcpy(char *dest, char *src)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	while (*src)
+	void	*mal;
+	size_t	i;
+
+	i = 0;
+	if (size == 0 || nmemb == 0)
 	{
-		*dest = *src;
-		if (*src == '\n')
-			break;
-		dest++;
-		src++;
+		mal = malloc(0);
+		return (mal);
 	}
-	dest++;
-	*dest = '\0';
+	mal = malloc(nmemb * size);
+	if (!mal)
+		return (NULL);
+	while (size * nmemb > i)
+	{
+		((char *)mal)[i] = '\0';
+		i++;
+	}
+	return (mal);
+}
+
+char	*ft_strdup(char *s)
+{
+	size_t		len;
+	int			i;
+	char		*dup;
+
+	i = 0;
+	len = ft_strlen(s);
+	dup = malloc((1 + len) * sizeof(char));
+	if (!dup)
+		return (NULL);
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+		if (dup[i - 1] == '\n')
+			break ;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

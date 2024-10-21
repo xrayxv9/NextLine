@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 12:40:21 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/21 17:00:06 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/21 17:36:30 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -28,8 +28,10 @@ char	*ft_strjoin(char *s1, char *s2);
 
 int		ft_strchr(char c, char *s);
 
-void	ft_strcpy(char *dest, char *src);
+char	*ft_strdup(char *s);
 
 char	*get_next_line(int fd);
+
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
