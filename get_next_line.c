@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/22 12:08:41 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/22 14:45:10 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -14,7 +14,7 @@
 
 static int	fill(char **buffer, int fd)
 {
-	int run;
+	int	run;
 
 	run = 0;
 	*buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
@@ -24,14 +24,12 @@ static int	fill(char **buffer, int fd)
 	return (run);
 }
 
-
-
-static char *read_line(int fd, char *buffer)
+static char	*read_line(int fd, char *buffer)
 {
 	int		run;
 	char	*line;
 	char	*tmp;
-	
+
 	run = 1;
 	while (run > 0)
 	{
@@ -51,10 +49,10 @@ static char *read_line(int fd, char *buffer)
 		if (ft_strchr('\n', buffer))
 			break ;
 	}
-	return(buffer);
+	return (buffer);
 }
 
-static char *check_line(char *buffer)
+static char	*check_line(char *buffer)
 {
 	char	*new_line;
 	int		i;
@@ -79,15 +77,13 @@ static char *check_line(char *buffer)
 	return (new_line);
 }
 
-char *clean_buffer(char *buffer)
+static char	*clean_buffer(char *buffer)
 {
 	int		i;
 	int		j;
 	char	*save;
 
 	i = 0;
-	j = 0;
-	save = NULL;
 	if (!buffer[0])
 	{
 		free(buffer);
@@ -95,20 +91,17 @@ char *clean_buffer(char *buffer)
 	}
 	while (buffer[i] != '\n' && buffer[i])
 		i++;
-	if (buffer[i] != '\0')
-		while (buffer[i + j])
-			j++;
 	save = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
-
 	if (!save)
 	{
 		free(buffer);
 		return (NULL);
 	}
 	j = -1;
-	i++;
+	if (buffer[i])
+		i++;
 	while (buffer[i + (++j)])
-		save[j] = buffer [i + j];
+		save[j] = buffer[i + j];
 	free(buffer);
 	return (save);
 }
@@ -119,8 +112,10 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	if (!buffer)
-		buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
+		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	buffer = read_line(fd, buffer);
 	if (!buffer)
 		return (NULL);
