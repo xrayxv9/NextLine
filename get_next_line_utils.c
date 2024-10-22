@@ -6,7 +6,7 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:05:46 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/21 17:43:20 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/22 10:28:31 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -103,8 +103,6 @@ char	*ft_strdup(char *s)
 	{
 		dup[i] = s[i];
 		i++;
-		if (dup[i - 1] == '\n')
-			break ;
 	}
 	dup[i] = '\0';
 	return (dup);

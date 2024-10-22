@@ -6,11 +6,25 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/21 18:18:31 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/22 12:08:41 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 #include <stdio.h>
+
+static int	fill(char **buffer, int fd)
+{
+	int run;
+
+	run = 0;
+	*buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!*buffer)
+		return (-2);
+	run = read(fd, *buffer, BUFFER_SIZE);
+	return (run);
+}
+
+
 
 static char *read_line(int fd, char *buffer)
 {
@@ -19,42 +33,49 @@ static char *read_line(int fd, char *buffer)
 	char	*tmp;
 	
 	run = 1;
-	if (!buffer)	
-		buffer = ft_calloc(1, 1);
-	line = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!line)
-		return (NULL);
 	while (run > 0)
 	{
-		run = read(fd, line, BUFFER_SIZE);
-		if (run == -1)
+		run = fill(&line, fd);
+		if (run < 0)
 		{
+			if (run != -2)
+				free(line);
 			free(buffer);
-			free(line);
 			return (NULL);
 		}
-		tmp = ft_strjoin(buffer, line);
+		tmp = ft_strdup(buffer);
 		free(buffer);
-		buffer = ft_strdup(tmp);
+		buffer = ft_strjoin(tmp, line);
 		free(tmp);
-		if (ft_strchr('\n', line))
+		free(line);
+		if (ft_strchr('\n', buffer))
 			break ;
 	}
-	free(line);
 	return(buffer);
 }
 
-static char *check_line(char *line)
+static char *check_line(char *buffer)
 {
 	char	*new_line;
 	int		i;
+	int		j;
 
 	i = 0;
-	while (line[i] != '\n' && line[i])
+	j = 0;
+	while (buffer[i] != '\n' && buffer[i])
 		i++;
-	new_line = ft_strdup(line);
+	if (buffer[i] == '\n')
+		i++;
+	new_line = ft_calloc(i + 1, sizeof(char));
 	if (!new_line)
 		return (NULL);
+	while (buffer[j] && buffer[j] != '\n')
+	{
+		new_line[j] = buffer[j];
+		j++;
+	}
+	if (buffer[j] == '\n' && buffer[j])
+		new_line[j] = '\n';
 	return (new_line);
 }
 
@@ -77,13 +98,18 @@ char *clean_buffer(char *buffer)
 	if (buffer[i] != '\0')
 		while (buffer[i + j])
 			j++;
-	save = malloc((j + 2) * sizeof(char));
+	save = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
+
+	if (!save)
+	{
+		free(buffer);
+		return (NULL);
+	}
 	j = -1;
 	i++;
 	while (buffer[i + (++j)])
 		save[j] = buffer [i + j];
 	free(buffer);
-	save[j] = '\0';
 	return (save);
 }
 
@@ -93,6 +119,8 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	line = NULL;
+	if (!buffer)
+		buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
 	buffer = read_line(fd, buffer);
 	if (!buffer)
 		return (NULL);
