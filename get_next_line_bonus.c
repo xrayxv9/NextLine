@@ -1,16 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/23 16:53:02 by cmorel           ###   ########.fr       */
+/*   Created: 2024/10/24 17:28:29 by cmorel            #+#    #+#             */
+/*   Updated: 2024/10/24 17:28:37 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "get_next_line.h"
-#include <stdio.h>
+#include "get_next_line_bonus.h"
 
 static int	fill(char **buffer, int fd)
 {
@@ -108,37 +107,19 @@ static char	*clean_buffer(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char		*buffer;
+	static char		*buffer[INT_MAX];
 	char			*line;
 
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!buffer)
-		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	buffer = read_line(fd, buffer);
-	if (!buffer)
+	if (!buffer[fd])
+		buffer[fd] = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer[fd] = read_line(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	if (buffer[0])
-		line = check_line(buffer);
-	buffer = clean_buffer(buffer);
+	if (buffer[fd][0])
+		line = check_line(buffer[fd]);
+	buffer[fd] = clean_buffer(buffer[fd]);
 	return (line);
 }
-/*
-#include <stdio.h>
-int main ()
-{
-	const char	*PATH = "test.txt";
-	int			fd = open(PATH, O_RDONLY);
-	char		*line =  get_next_line(fd);
-	int			i = 0;
-
-	while (i <= 10)
-	{
-		printf("ligne %d --> %s", i, line);
-		free(line);	
-		line = get_next_line(fd);
-		i++;
-	}
-	free(line);
-}*/

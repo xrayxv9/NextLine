@@ -6,11 +6,10 @@
 /*   By: cmorel <cmorel@42angouleme.fr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:22:39 by cmorel            #+#    #+#             */
-/*   Updated: 2024/10/23 16:53:02 by cmorel           ###   ########.fr       */
+/*   Updated: 2024/10/24 17:26:29 by cmorel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <stdio.h>
 
 static int	fill(char **buffer, int fd)
 {
@@ -124,21 +123,3 @@ char	*get_next_line(int fd)
 	buffer = clean_buffer(buffer);
 	return (line);
 }
-/*
-#include <stdio.h>
-int main ()
-{
-	const char	*PATH = "test.txt";
-	int			fd = open(PATH, O_RDONLY);
-	char		*line =  get_next_line(fd);
-	int			i = 0;
-
-	while (i <= 10)
-	{
-		printf("ligne %d --> %s", i, line);
-		free(line);	
-		line = get_next_line(fd);
-		i++;
-	}
-	free(line);
-}*/
